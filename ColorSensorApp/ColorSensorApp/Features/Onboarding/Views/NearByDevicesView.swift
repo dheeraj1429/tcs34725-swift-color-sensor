@@ -7,12 +7,22 @@
 
 import SwiftUI
 
-struct NearByDevices: View {
+struct NearByDevicesView: View {
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        VStack(
+            alignment: .leading,
+            spacing: 5,
+            content: {
+                NearByDevicesHeadingView()
+                Divider()
+                NearByDevicesListView()
+            }
+        )
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .padding(.top, 20)
     }
 }
 
 #Preview {
-    NearByDevices()
+    NearByDevicesView()
 }

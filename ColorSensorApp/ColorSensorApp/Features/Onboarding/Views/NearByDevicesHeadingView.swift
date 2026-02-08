@@ -8,11 +8,35 @@
 import SwiftUI
 
 struct NearByDevicesHeadingView: View {
+    @EnvironmentObject var bleManager: BLEManager
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        VStack(alignment: .leading) {
+            HStack {
+                Text("Nearby devices")
+                    .font(.headline)
+                Spacer()
+                if bleManager.isScanning {
+                    ProgressView()
+                } else {
+                    Button("Scan") {
+                        bleManager.scanForDevices()
+                    }
+                }
+            }
+
+            Text(
+                "You need to allow bluetooth access to use this feature."
+            )
+            .padding(.vertical, 5)
+            .font(.callout)
+            .foregroundStyle(Color(.systemGray))
+        }
+        .padding(.horizontal, 15)
     }
 }
 
 #Preview {
     NearByDevicesHeadingView()
+        .environmentObject(BLEManager.shared)
 }

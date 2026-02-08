@@ -21,4 +21,5 @@ struct ContentView: View {
 
 #Preview {
     ContentView()
+        .environmentObject(BLEManager.shared)
 }

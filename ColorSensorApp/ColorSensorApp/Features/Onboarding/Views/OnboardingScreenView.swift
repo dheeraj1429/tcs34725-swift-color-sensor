@@ -1,5 +1,5 @@
 //
-//  OnboardingFirstScreen.swift
+//  OnboardingScreen.swift
 //  ColorSensorApp
 //
 //  Created by DHEERAJ on 08/02/26.
@@ -7,7 +7,8 @@
 
 import SwiftUI
 
-struct OnboardingFirstScreenView: View {
+struct OnboardingScreenView: View {
+    @EnvironmentObject var bleManager: BLEManager
     @StateObject var onboardingVM = OnboardingViewModel()
     
     var body: some View {
@@ -28,10 +29,10 @@ struct OnboardingFirstScreenView: View {
                             .font(.subheadline)
                             .multilineTextAlignment(.center)
                             .foregroundStyle(Color(.systemGray))
-
+                        
                         if index == onboardingVM.onboardingItems.count - 1 {
                             Button {
-                                
+                                onboardingVM.isSheetPresented = true
                             } label: {
                                 Text("Connect")
                                     .foregroundStyle(.white)
@@ -52,12 +53,22 @@ struct OnboardingFirstScreenView: View {
             .indexViewStyle(.page(backgroundDisplayMode: .always))
         }
         .sheet(isPresented: $onboardingVM.isSheetPresented, content: {
-            
+            NearByDevicesView()
+                .presentationDetents([.medium])
+                .presentationBackground(.ultraThinMaterial)
+        })
+        .onChange(of: onboardingVM.isSheetPresented, { oldValue, newValue in
+            if newValue {
+                bleManager.scanForDevices()
+            } else {
+                bleManager.stop()
+            }
         })
         .padding()
     }
 }
 
 #Preview {
-    OnboardingFirstScreenView()
+    OnboardingScreenView()
+        .environmentObject(BLEManager.shared)
 }
