@@ -30,4 +30,8 @@ protocol BLEManagerDelegate {
     func isDeviceConnecting(with peripheral: CBPeripheral) -> Bool
     /// Checks if the specified peripheral is currently connected.
     func isDeviceConnected(with peripheral: CBPeripheral) -> Bool
+    /// Send commands to connected device
+    func sendCommand(with command: Command) -> ()
+    /// Find the CBCharacteristic from the connected peripheral
+    func findCBCharacteristic(on peripheral: CBPeripheral, withCharUUId: CBUUID, withServiceUUID: CBUUID) -> CBCharacteristic?
 }

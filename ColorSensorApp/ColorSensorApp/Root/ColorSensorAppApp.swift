@@ -10,11 +10,13 @@ import SwiftUI
 @main
 struct ColorSensorAppApp: App {
     @StateObject var bleManager = BLEManager.shared
+    @StateObject var router = Router.shared
     
     var body: some Scene {
         WindowGroup {
-            OnboardingScreenView()
+            RootApp()
                 .environmentObject(bleManager)
+                .environmentObject(router)
         }
     }
 }
